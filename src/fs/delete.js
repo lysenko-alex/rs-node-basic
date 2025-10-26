@@ -1,3 +1,8 @@
+import fs from 'node:fs/promises';
+import { ERROR_MESSAGE, checkFileExists } from '../shared.js';
+
+const FILE_PATH = './src/fs/files/fileToRemove.txt';
+
 const remove = async () => {
   try {
     const fileExists = await checkFileExists(FILE_PATH);

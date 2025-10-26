@@ -10,7 +10,7 @@ const list = async () => {
       throw new Error(ERROR_MESSAGE);
     }
     const fileNames = await fs.readdir(DIRECTORY_PATH);
-    console.log(files);
+    console.log(fileNames);
   } catch (error) {
     throw new Error(error);
   }
