@@ -26,6 +26,7 @@ export const OS_FLAGS = {
 
 export const ERROR_MESSAGES = {
   INVALID_INPUT: 'Invalid input',
+  INVALID_COMMAND: 'Invalid command',
   OPERATION_FAILED: 'Operation failed',
   USERNAME_REQUIRED: 'Username is required. Please provide --username argument.',
   FILE_NOT_FOUND: 'File not found',
@@ -61,5 +62,16 @@ export const ERROR_MESSAGES = {
   FILE_NOT_FOUND_OR_NOT_FILE: 'File not found or path is not a file',
   SOURCE_FILE_NOT_FOUND: 'Source file not found',
   DESTINATION_DIRECTORY_NOT_FOUND: 'Destination directory not found',
+};
+
+export const SUCCESS_MESSAGES = {
+  FILE_CREATED: 'File created',
+  DIRECTORY_CREATED: 'Directory created',
+  FILE_RENAMED: 'File renamed',
+  FILE_COPIED: 'File copied',
+  FILE_MOVED: 'File moved',
+  FILE_DELETED: 'File deleted',
+  FILE_COMPRESSED: 'File compressed',
+  FILE_DECOMPRESSED: 'File decompressed',
 };
 

@@ -23,8 +23,8 @@ export const logger = {
     console.log(colorize(message, colors.brightCyan));
   },
 
-  output(output) {
-    console.log(output);
+  log(message) {
+    console.log(message);
   },
 
   hash(hash) {

@@ -7,7 +7,7 @@ import { calculateHash } from './modules/hash.js';
 import { compressFile, decompressFile } from './modules/compression.js';
 import { validateArgs } from './modules/utils.js';
 import { logger } from './modules/logger.js';
-import { COMMANDS, ERROR_MESSAGES } from './modules/constants.js';
+import { COMMANDS, ERROR_MESSAGES, SUCCESS_MESSAGES } from './modules/constants.js';
 
 function getUsername() {
   const args = process.argv.slice(2);
@@ -86,7 +86,10 @@ async function processCommand(input, currentDir) {
         if (!validateArgs(args, 1, 1)) {
           return { error: ERROR_MESSAGES.INVALID_INPUT };
         }
-        const content = await fileOps.readFile(currentDir, args[0]);
+        const content = await fileOps.readFile(currentDir, args[0]); 
+        if (content === '') {
+          return { result: SUCCESS_MESSAGES.FILE_EMPTY };
+        }
         return { result: content };
         
       case COMMANDS.ADD:
@@ -94,42 +97,42 @@ async function processCommand(input, currentDir) {
           return { error: ERROR_MESSAGES.INVALID_INPUT };
         }
         await fileOps.createFile(currentDir, args[0]);
-        return { result: '' };
+        return { result: SUCCESS_MESSAGES.FILE_CREATED };
         
       case COMMANDS.MKDIR:
         if (!validateArgs(args, 1, 1)) {
           return { error: ERROR_MESSAGES.INVALID_INPUT };
         }
         await fileOps.createDirectory(currentDir, args[0]);
-        return { result: '' };
+        return { result: SUCCESS_MESSAGES.DIRECTORY_CREATED };
         
       case COMMANDS.RENAME:
         if (!validateArgs(args, 2, 2)) {
           return { error: ERROR_MESSAGES.INVALID_INPUT };
         }
         await fileOps.rename(currentDir, args[0], args[1]);
-        return { result: '' };
+        return { result: SUCCESS_MESSAGES.FILE_RENAMED };
         
       case COMMANDS.COPY:
         if (!validateArgs(args, 2, 2)) {
           return { error: ERROR_MESSAGES.INVALID_INPUT };
         }
         await fileOps.copyFile(currentDir, args[0], args[1]);
-        return { result: '' };
+        return { result: SUCCESS_MESSAGES.FILE_COPIED };
         
       case COMMANDS.MOVE:
         if (!validateArgs(args, 2, 2)) {
           return { error: ERROR_MESSAGES.INVALID_INPUT };
         }
         await fileOps.moveFile(currentDir, args[0], args[1]);
-        return { result: '' };
+        return { result: SUCCESS_MESSAGES.FILE_MOVED };
         
       case COMMANDS.DELETE:
         if (!validateArgs(args, 1, 1)) {
           return { error: ERROR_MESSAGES.INVALID_INPUT };
         }
         await fileOps.deleteFile(currentDir, args[0]);
-        return { result: '' };
+        return { result: SUCCESS_MESSAGES.FILE_DELETED };
         
       case COMMANDS.OS:
         if (!validateArgs(args, 1, 1)) {
@@ -152,20 +155,20 @@ async function processCommand(input, currentDir) {
           return { error: ERROR_MESSAGES.INVALID_INPUT };
         }
         await compressFile(currentDir, args[0], args[1]);
-        return { result: '' };
+        return { result: SUCCESS_MESSAGES.FILE_COMPRESSED };
         
       case COMMANDS.DECOMPRESS:
         if (!validateArgs(args, 2, 2)) {
           return { error: ERROR_MESSAGES.INVALID_INPUT };
         }
         await decompressFile(currentDir, args[0], args[1]);
-        return { result: '' };
+        return { result: SUCCESS_MESSAGES.FILE_DECOMPRESSED };
         
       case COMMANDS.EXIT:
         return { exit: true };
         
       default:
-        return { error: ERROR_MESSAGES.INVALID_INPUT };
+        return { error: ERROR_MESSAGES.INVALID_COMMAND };
     }
   } catch (error) {
     return { error: ERROR_MESSAGES.OPERATION_FAILED };
@@ -210,7 +213,7 @@ function main() {
       logger.error(error);
     } else if (result !== undefined) {
       if (result !== '') {
-        logger.output(result);
+        logger.log(result);
       }
     }
     
